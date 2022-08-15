@@ -95,12 +95,12 @@ fun ErasableView() {
 /**
  * 実際にCanvasに描く内容
  *
- * @param history なぞられた軌跡
+ * @param tracks なぞられた軌跡
  * @param srcImage 画像
  * @param bgImage 背景の透過レイヤー画像
  */
 private fun getPaintContent(
-    history: List<PathHis>?,
+    tracks: List<PathHis>?,
     srcImage: ImageBitmap,
     bgImage: ImageBitmap,
 ): DrawScope.() -> Unit {
@@ -108,7 +108,7 @@ private fun getPaintContent(
 
         // PathHisリスト -> Pathリストに変換
         val paths = ArrayList<Path>()
-        history?.let {
+        tracks?.let {
             var path = Path()
             it.forEach { pathHis ->
                 when (pathHis) {
@@ -128,7 +128,6 @@ private fun getPaintContent(
 
             // 最後の軌跡をリストイン
             paths.add(path)
-
 
         }
 
@@ -230,7 +229,7 @@ private fun getPaintContent(
 
                 // それだと、せっかく設定してあった背景まで切り取られてしまうので、改めてDstOverで透明レイヤー画像を描く。
                 // DstOver : 描かれ側を描く側の上に重ねて描写
-                if (history != null) {
+                if (tracks != null) {
                     drawImage(
                         image = bgImage,
                         dstSize = IntSize(editSrcWidth, editSrcHeight),
@@ -239,7 +238,7 @@ private fun getPaintContent(
                 }
             }
 
-            val lastTouch = history?.lastOrNull()
+            val lastTouch = tracks?.lastOrNull()
             if (lastTouch != null) {
                 // 触っているところに●を書く(編集の補助になるように)
                 // 描写領域外だった場合は描かない
