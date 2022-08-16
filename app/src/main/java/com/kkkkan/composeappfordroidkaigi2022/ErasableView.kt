@@ -9,7 +9,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
@@ -156,16 +159,6 @@ private fun getPaintContent(
         val offset = Offset((canvasWidth - editSrcWidth) / 2, (canvasHeight - editSrcHeight) / 2)
 
 
-        // 指でなぞった軌跡の太さ
-        val transStroke = 40f
-
-
-        // 指でなぞったところを描くpaint
-        val transparentLinePaint = Paint().apply {
-            color = Color.Red // 最終的に透明レイヤー画像にするので何色でも関係ないが、透明だと反応しなかった。
-            strokeWidth = transStroke
-            style = PaintingStyle.Stroke // 細い線で描く
-        }
 
         inset(horizontal = offset.x, vertical = offset.y) {
             // 上下左右にoffsetを入れる
@@ -189,8 +182,12 @@ private fun getPaintContent(
             )
 
 
+            // 指でなぞった軌跡の太さ(単位 : pixel)
+            val transStroke = 40f
+
+
             // canvasに対して軌跡をDstOutで描く
-            // DstOut : 描かれる側(背景側)のうち、今から描く側(今回の場合はimage)と重なっていないところだけ表示。「描く側」の方は一切描かない。
+            // DstOut : 描かれる側(背景側)のうち、今から描く側(今回の場合はpath)と重なっていないところだけ表示。「描く側」の方は一切描かない。
             // 現在のDrawScopeの領域をはみ出した部分は描写しないためにclipRectを使用。
             clipRect {
                 inset(-offset.x, -offset.y) {
@@ -199,23 +196,28 @@ private fun getPaintContent(
                     paths.forEach { path ->
                         drawPath(
                             path = path,
-                            color = Color.Red,
+                            color = Color.Red,// 最終的に透明レイヤー画像にするので何色でも関係ないが、透明だと反応しない。
+                            style = Stroke(width = transStroke), // デフォルトはFill=線で囲まれた領域を埋めてしまう。今回は線通りに描く。太さは40f pixel。
                             blendMode = BlendMode.DstOut,
-                            style = Stroke(width = 40f)
                         )
                     }
                 }
             }
+
 
             // それだと、せっかく設定してあった背景まで切り取られてしまうので、改めてDstOverで透明レイヤー画像を描く。
             // DstOver : 描かれ側を描く側の上に重ねて描写
             if (tracks != null) {
                 drawImage(
                     image = bgImage,
-                    dstSize = IntSize(editSrcWidth, editSrcHeight),
+                    dstSize = IntSize(
+                        editSrcWidth,
+                        editSrcHeight
+                    ),// 一番最初に背景透過を描き込んだ時と同じサイズで描くので、前面画像が背景透過画像だった場合も格子がずれることはない
                     blendMode = BlendMode.DstOver
                 )
             }
+
 
             val lastTouch = tracks?.lastOrNull()
             if (lastTouch != null) {
