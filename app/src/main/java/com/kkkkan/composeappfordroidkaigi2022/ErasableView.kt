@@ -1,6 +1,5 @@
 package com.kkkkan.composeappfordroidkaigi2022
 
-import android.graphics.Bitmap
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import java.io.Serializable
 import java.lang.Integer.min
@@ -89,6 +87,8 @@ fun ErasableView() {
             },
         onDraw = drawScope
     )
+
+
 }
 
 
@@ -183,7 +183,6 @@ private fun getPaintContent(
                 dstSize = IntSize(editSrcWidth, editSrcHeight)
             )
 
-
             // 画像を描く
             drawImage(
                 image = srcImage,
@@ -191,51 +190,32 @@ private fun getPaintContent(
             )
 
 
-            // 指でなぞった軌跡の線を引くbitmap
-            // 指で描いた軌跡(paths)は、canvasにとっての座標で記録が取れているはずなのでcanvasの大きさで作る
-            val resultBitmap = Bitmap.createBitmap(
-                canvasWidth.toInt(),
-                canvasHeight.toInt(),
-                Bitmap.Config.ARGB_8888,
-                true
-            ).copy(Bitmap.Config.ARGB_8888, true)?.asImageBitmap()
-
-            if (resultBitmap != null) {
-
-                // 軌跡をbitmapに描く
-                Canvas(image = resultBitmap).apply {
-
-                    this.save()
-
+            // canvasに対して軌跡をDstOutで描く
+            // DstOut : 描かれる側(背景側)のうち、今から描く側(今回の場合はimage)と重なっていないところだけ表示。「描く側」の方は一切描かない。
+            // 現在のDrawScopeの領域をはみ出した部分は描写しないためにclipRectを使用。
+            clipRect {
+                inset(-offset.x, -offset.y) {
+                    // 指で描いた軌跡(paths)は、canvasにとっての座標で記録が取れているはずなのでcanvasの大きさで作る
+                    // そのために打ち消す方向にinsetを入れる
                     paths.forEach { path ->
-                        drawPath(path = path, paint = transparentLinePaint)
+                        drawPath(
+                            path = path,
+                            color = Color.Red,
+                            blendMode = BlendMode.DstOut,
+                            style = Stroke(width = 40f)
+                        )
                     }
-
-                    this.restore()
                 }
+            }
 
-
-                // canvasに対して軌跡画像をDstOutで描く
-                // DstOut : 描かれる側(背景側)のうち、今から描く側(今回の場合はimage)と重なっていないところだけ表示。「描く側」の方は一切描かない。
-                // このスコープ自体はinsetが入っているが、resultBitmapはcanvasの大きさになっているのでsrcに対してOffsetと、下辺と右辺も画像からはみ出させない為にsrcSizeの指定も必要
-                // dstSizeは、今回の場合はsrcOffsetとsrcSizeを入れれば自動的に IntSize(editSrcWidth, editSrcHeight)になるはずのでいらない。
-                // (入れてもいい。)
+            // それだと、せっかく設定してあった背景まで切り取られてしまうので、改めてDstOverで透明レイヤー画像を描く。
+            // DstOver : 描かれ側を描く側の上に重ねて描写
+            if (tracks != null) {
                 drawImage(
-                    image = resultBitmap,
-                    srcOffset = IntOffset(offset.x.toInt(), offset.y.toInt()),
-                    srcSize = IntSize(editSrcWidth, editSrcHeight),
-                    blendMode = BlendMode.DstOut,
+                    image = bgImage,
+                    dstSize = IntSize(editSrcWidth, editSrcHeight),
+                    blendMode = BlendMode.DstOver
                 )
-
-                // それだと、せっかく設定してあった背景まで切り取られてしまうので、改めてDstOverで透明レイヤー画像を描く。
-                // DstOver : 描かれ側を描く側の上に重ねて描写
-                if (tracks != null) {
-                    drawImage(
-                        image = bgImage,
-                        dstSize = IntSize(editSrcWidth, editSrcHeight),
-                        blendMode = BlendMode.DstOver
-                    )
-                }
             }
 
             val lastTouch = tracks?.lastOrNull()
