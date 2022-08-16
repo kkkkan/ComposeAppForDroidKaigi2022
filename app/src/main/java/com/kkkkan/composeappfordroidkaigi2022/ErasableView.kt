@@ -40,21 +40,20 @@ sealed class PathHis : Serializable {
 fun ErasableView() {
 
 
-    // なぞられる画像
-    val srcImage = ImageBitmap.imageResource(id = R.drawable.dog_mizu_tobasu)
-
-    // 背景におく、透明レイヤー画像
-    val transBgImage =
-        ImageBitmap.imageResource(R.drawable.trans_bg)
-
-
     // 指でなぞられた軌跡の履歴
     val tracks = rememberSaveable {
         mutableStateOf<List<PathHis>?>(null)
     }
 
 
-    val drawScope = getPaintContent(tracks.value, srcImage, transBgImage)
+    // なぞられる画像
+    val srcImage = ImageBitmap.imageResource(id = R.drawable.dog_mizu_tobasu)
+
+    // 背景におく、透明レイヤー画像
+    val bgImage =
+        ImageBitmap.imageResource(R.drawable.trans_bg)
+
+    val drawScope = getPaintContent(tracks.value, srcImage, bgImage)
 
     Canvas(
         modifier = Modifier
