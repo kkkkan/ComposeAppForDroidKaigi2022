@@ -32,9 +32,8 @@ sealed class PathHis : Serializable {
     abstract val y: Float
 
 
-    data class MoveTo(override val x: Float, override val y: Float) : PathHis(), Serializable
-    data class LineTo(override val x: Float = 0f, override val y: Float = 0f) : PathHis(),
-        Serializable
+    data class MoveTo(override val x: Float, override val y: Float) : PathHis()
+    data class LineTo(override val x: Float = 0f, override val y: Float = 0f) : PathHis()
 }
 
 
