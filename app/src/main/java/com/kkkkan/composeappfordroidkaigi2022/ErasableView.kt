@@ -188,9 +188,10 @@ private fun getPaintContent(
             // canvasに対して軌跡をDstOutで描く
             // DstOut : 描かれる側(背景側)のうち、今から描く側(今回の場合はpath)と重なっていないところだけ表示。「描く側」の方は一切描かない。
             // 現在のDrawScopeの領域をはみ出した部分は描写しないためにclipRectを使用。
+            // insetに入れたoffsetは割り算した時の丸めなどで画像とinsetのdrawScopeの大きさは厳密にはぴったりではないかもしれない
+            // なのでclipRectには一応画像の大きさを渡しておく
             clipRect(right = editSrcWidth.toFloat(), bottom = editSrcHeight.toFloat()) {
-                // insetに入れたoffsetは割り算した時の丸めなどで画像とinsetのdrawScopeの大きさは厳密にはぴったりではないかもしれない
-                // なのでclipRectには一応画像の大きさを渡しておく
+
                 inset(-offset.x, -offset.y) {
                     // 指で描いた軌跡(paths)は、canvasにとっての座標で記録が取れているはずなのでcanvasの大きさで作る
                     // そのために打ち消す方向にinsetを入れる
@@ -224,9 +225,9 @@ private fun getPaintContent(
             if (lastTouch != null) {
                 // 触っているところに●を書く(編集の補助になるように)
                 // 描写領域外だった場合は描かない
+                // insetに入れたoffsetは割り算した時の丸めなどで画像とinsetのdrawScopeの大きさは厳密にはぴったりではないかもしれない
+                // なのでclipRectには一応画像の大きさを渡しておく
                 clipRect(right = editSrcWidth.toFloat(), bottom = editSrcHeight.toFloat()) {
-                    // insetに入れたoffsetは割り算した時の丸めなどで画像とinsetのdrawScopeの大きさは厳密にはぴったりではないかもしれない
-                    // なのでclipRectには一応画像の大きさを渡しておく
 
                     // 現在のスコープからはみ出した部分は切り取る
                     inset(-offset.x, -offset.y) {
