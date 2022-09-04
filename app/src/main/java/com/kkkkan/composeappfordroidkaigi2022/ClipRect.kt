@@ -24,22 +24,24 @@ fun ClipRectCanvasView() {
     ) {
         drawRect(Color.Cyan)
         val height = size.height
+        val padding = size.width / 5
+
 
         // 何もしない場合 DrawScopeの領域外にも書ける
         drawLine(
             color = Color.Black,
-            start = Offset(50f, -50f),
-            end = Offset(50f, height + 50f),
-            strokeWidth = 10f,
+            start = Offset(padding, -50f),
+            end = Offset(padding, height + 50f),
+            strokeWidth = 20f,
         )
 
         clipRect {
             // clipRectを使用すると領域外の部分は描写されない
             drawLine(
                 color = Color.Red,
-                start = Offset(100f, -50f),
-                end = Offset(100f, height + 50f),
-                strokeWidth = 10f,
+                start = Offset(padding * 2, -50f),
+                end = Offset(padding * 2, height + 50f),
+                strokeWidth = 20f,
             )
         }
 
@@ -47,9 +49,9 @@ fun ClipRectCanvasView() {
             // clipRectする領域を設定することも可能
             drawLine(
                 color = Color.Magenta,
-                start = Offset(200f, -50f),
-                end = Offset(200f, height + 50f),
-                strokeWidth = 10f,
+                start = Offset(padding * 3, -50f),
+                end = Offset(padding * 3, height + 50f),
+                strokeWidth = 20f,
             )
         }
 
@@ -58,9 +60,9 @@ fun ClipRectCanvasView() {
             // clipOp = ClipOp.Difference を設定すると指定した領域外の部分のみ描写するようになる
             drawLine(
                 color = Color.Gray,
-                start = Offset(300f, -50f),
-                end = Offset(300f, height + 50f),
-                strokeWidth = 10f
+                start = Offset(padding * 4, -50f),
+                end = Offset(padding * 4, height + 50f),
+                strokeWidth = 20f
             )
         }
 
