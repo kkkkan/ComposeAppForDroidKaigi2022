@@ -56,14 +56,14 @@ class MainActivity : AppCompatActivity() {
         Canvas(modifier = Modifier
             .padding(px50toDp.dp)
             .fillMaxSize()) {
-            drawRect(Color.Cyan)
+            drawRect(Color.Magenta)
             inset(150.0f) {
                 drawRect(Color.Yellow)
                 drawLine(
                     color = Color.Black,
-                    start = Offset(-150f-50f, -150f-50f),
-                    end = Offset(size.width+150f+50f, size.height+150f+50f),
-                    strokeWidth = 10.0f
+                    start = Offset(-150f - 50f, -150f - 50f),
+                    end = Offset(size.width + 150f + 50f, size.height + 150f + 50f),
+                    strokeWidth = 40.0f
                 )
             }
         }
