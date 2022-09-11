@@ -3,6 +3,9 @@ DroidKaigi2022 プロジェクト発表資料内に出てきたコードのプ�
 
 [発表時のスライド](https://speakerdeck.com/kkkkan/droidkaigi2022-jetpack-composewoyong-ite-canvaswozhi-jie-hong-ruyounakonponentowozuo-cheng-surufang-fa-1)
 
+<img src="https://user-images.githubusercontent.com/22609306/189529131-1e2b6c9e-611c-44ad-874d-5fb83820e8df.png" width="40%"></img>
+
+
 
 # スライド内のpreviewとこのプロジェクト内のファイルの対応
 
