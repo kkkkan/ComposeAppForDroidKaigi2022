@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 //            SimpleCanvasView()
 
             // ピンクの矩形+黄色い矩形に黒い対角線のCanvas
-            OverAreaCanvasView()
+//            OverAreaCanvasView()
 
             // drawArc の例
 //            DrawArcCanvasView()
