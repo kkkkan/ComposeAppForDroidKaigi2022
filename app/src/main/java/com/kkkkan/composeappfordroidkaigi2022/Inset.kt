@@ -13,6 +13,9 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+/**
+ * inset の例
+ */
 @Composable
 fun InsetCanvasView() {
     val px50toDp = 50f / LocalContext.current.resources.displayMetrics.density

@@ -25,6 +25,14 @@ import androidx.compose.ui.unit.IntSize
 import java.io.Serializable
 import java.lang.Integer.min
 
+//
+//
+// 実践的なコンポーネントのコード例
+// 「中央に犬の画像があり、その上を指でなぞると軌跡が透明レイヤーの画像になる」コンポーネントを実現するためのコード一式
+//
+//
+//
+
 // 線を引いた履歴
 // Serialize可能にするために、一次ソースとして記憶する時は組み込みのPathクラスではなくこちらを使用する
 sealed class PathHis : Serializable {
@@ -37,6 +45,9 @@ sealed class PathHis : Serializable {
 }
 
 
+/**
+ * 「中央に犬の画像があり、その上を指でなぞると軌跡が透明レイヤーの画像になる」コンポーネント
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ErasableView() {

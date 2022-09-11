@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
+/**
+ * drawImage の例
+ */
 @Composable
 fun DrawImageCanvasView() {
     val px50toDp = 50f / LocalContext.current.resources.displayMetrics.density

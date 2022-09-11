@@ -21,11 +21,54 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            // 黒背景に白い対角線のCanvas
+//            SimpleCanvasView()
+
+            // ピンクの矩形+黄色い矩形に黒い対角線のCanvas
             OverAreaCanvasView()
+
+            // drawArc の例
+//            DrawArcCanvasView()
+
+            // drawCircle の例
+//            DrawCircleCanvasView()
+
+            // drawImage の例
+//            DrawImageCanvasView()
+
+            // drawLine の例
+//            DrawLineCanvasView()
+
+            // drawOval の例
+//            DrawOvalCanvasView()
+
+            // drawPath の例
+//            DrawPathCanvasView()
+
+            // drawPoints の例
+//            DrawPointsCanvasView()
+
+            // drawRect の例
+//            DrawRectCanvasView()
+
+            // drawRoundRect の例
+//            DrawRoundRectCanvasView()
+
+            // clipRect の例
+//            ClipRectCanvasView()
+
+            // inset の例
+//            InsetCanvasView()
+
+            // 「中央に犬の画像があり、その上を指でなぞると軌跡が透明レイヤーの画像になる」コンポーネント
+            ErasableView()
         }
     }
 
 
+    /**
+     * 黒背景に白い対角線のCanvas
+     */
     @Composable
     fun SimpleCanvasView() {
         Canvas(modifier = Modifier.fillMaxSize()) {
@@ -48,14 +91,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
+    /**
+     * ピンクの矩形+黄色い矩形に黒い対角線のCanvas
+     */
     @Composable
     fun OverAreaCanvasView() {
-        val px50toDp= 50f/LocalContext.current.resources.displayMetrics.density
-        Canvas(modifier = Modifier
-            .padding(px50toDp.dp)
-            .fillMaxSize()) {
+        val px50toDp = 50f / LocalContext.current.resources.displayMetrics.density
+        Canvas(
+            modifier = Modifier
+                .padding(px50toDp.dp)
+                .fillMaxSize()
+        ) {
             drawRect(Color.Magenta)
             inset(150.0f) {
                 drawRect(Color.Yellow)
