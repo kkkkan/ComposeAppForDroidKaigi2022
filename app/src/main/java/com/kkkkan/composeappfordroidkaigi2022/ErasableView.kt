@@ -105,7 +105,8 @@ fun ErasableView() {
 
 
 /**
- * 実際にCanvasに描く内容
+ * 実際にCanvasに描く内容。
+ * CanvasにonDrawとして渡すもの。
  *
  * @param tracks なぞられた軌跡
  * @param srcImage 画像
